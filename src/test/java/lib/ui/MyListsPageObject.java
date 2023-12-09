@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import lib.Platform;
 import lib.ui.factories.NavigationUIFactory;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -19,11 +20,13 @@ abstract public class MyListsPageObject extends MainPageObject {
         super(driver);
     }
 
+    @Step("Wait for article to appear")
     public void waitForArticleToAppearByTittle(String article_tittle){
         String articleXpath= getTittle(article_tittle);
         this.waitForElementPresent(articleXpath,"Cannot find article: " + article_tittle,10);
     }
 
+    @Step("Wait for article to disappear form screen")
     public void waitForArticleToDisappearByTittle(String article_tittle){
         String articleXpath= getTittle(article_tittle);
         this.waitForElementPresent(articleXpath,"Found article: " + article_tittle,10);
@@ -37,6 +40,7 @@ abstract public class MyListsPageObject extends MainPageObject {
         return ARTICLE_TITTLE_TPL.replace("{SUBSTRING}", substring);
     }
 
+    @Step("Deleting first article from list")
     public void deleteFirstArticle(String article_list_name) {
         if (Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()){
         this.swipeUpQuick();
@@ -50,6 +54,7 @@ abstract public class MyListsPageObject extends MainPageObject {
         }
     }
 
+    @Step("Checking article tittle with provided: '{article_list_name}'")
     public void checkArticleTitle(String article_list_name) throws InterruptedException {
         if(Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()) {
             this.waitForElementWithTextAndClick(ARTICLE_IN_LIST,

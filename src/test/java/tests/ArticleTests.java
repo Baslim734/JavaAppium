@@ -1,5 +1,7 @@
 package tests;
 
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
 import lib.CoreTestCase;
 import lib.ui.ArticlePageObject;
 import lib.ui.MyListsPageObject;
@@ -11,6 +13,7 @@ import lib.ui.factories.NavigationUIFactory;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
+@Epic("Tests for articles")
 public class ArticleTests extends CoreTestCase {
 
     private SearchPageObject SearchPageObject;
@@ -18,13 +21,17 @@ public class ArticleTests extends CoreTestCase {
     private NavigationUI NavigationUI;
     private MyListsPageObject MylistsPageObject;
 
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         super.setUp();
         SearchPageObject = SearchPageObjectFactory.get(driver);
         ArticlePageObject = ArticlePageObjectFactory.get(driver);
     }
 
     @Test
+    @Features(value = {@Feature(value="Search"),@Feature(value = "Article")})
+    @DisplayName("Saving two articles")
+    @Description("Saving two articles, delete one and check expected to stay")
+    @Step("Starting test testSavingTwoArticles")
     public void testSavingTwoArticles() throws InterruptedException {
         SearchPageObject  = SearchPageObjectFactory.get(driver);
         ArticlePageObject = ArticlePageObjectFactory.get(driver);
@@ -33,6 +40,7 @@ public class ArticleTests extends CoreTestCase {
 
         SearchPageObject.startAppSkipButton();
 
+        ArticlePageObject.takeScreenshot("main_page");
 
         String article_tittle = "Cinnamon";
         String article_list_name = article_tittle + " list";
@@ -40,10 +48,10 @@ public class ArticleTests extends CoreTestCase {
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine(article_tittle);
-        SearchPageObject.clickBySearchResult(0);
+        SearchPageObject.clickBySearchResult(1);
         ArticlePageObject.createNewListAndAddArticle(article_list_name);
         ArticlePageObject.closeArticle();
-        SearchPageObject.clickBySearchResult(1);
+        SearchPageObject.clickBySearchResult(2);
         ArticlePageObject.addArticleToExistingList(article_list_name);
         ArticlePageObject.closeArticle();
         NavigationUI.backToMainPage();
@@ -54,6 +62,8 @@ public class ArticleTests extends CoreTestCase {
     }
 
     @Test
+    @DisplayName("Check tittle with expected one")
+    @Description("In search results we check tittle with search query")
     public void testCheckTittle() throws InterruptedException {
         SearchPageObject = SearchPageObjectFactory.get(driver);
         ArticlePageObject = ArticlePageObjectFactory.get(driver);

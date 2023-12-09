@@ -2,7 +2,9 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.qameta.allure.Step;
 import lib.Platform;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -30,14 +32,16 @@ abstract public class ArticlePageObject extends MainPageObject {
         super(driver);
     }
 
+    @Step("Try to find '{textInElement}' in ech result")
     public void expectTheTextInEachResult(String textInElement) {
         List<WebElement> elements = driver.findElements(By.id(RESULT_ARTICLE_TITTLE_ID));
         for (WebElement element : elements) {
             String text = element.getText();
-            assertTrue("Expected text in tittle:" + textInElement + "\nBut found: " + text, text.contains(textInElement));
+            Assert.assertTrue("Expected text in tittle:" + textInElement + "\nBut found: " + text, text.contains(textInElement));
         }
     }
 
+    @Step("Creating new list with name '{article_list_name}'")
     public void createNewListAndAddArticle(String article_list_name) throws InterruptedException {
         System.out.println("Current platform is:  " + Platform.getInstance().getPlatformVar());
         if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()) {
@@ -61,6 +65,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         }
     }
 
+    @Step("Adding article to the list '{article_list_name}'")
     public void addArticleToExistingList(String article_list_name) {
         if (Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()) {
             this.waitForElementAndClick(BUTTON_SAVE_ID,
@@ -76,6 +81,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         }
     }
 
+
     private static String getElementByText(String substring) {
         return SEARCH_BY_TEXT_TPL.replace("{SUBSTRING}", substring);
     }
@@ -84,6 +90,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         return ARTICLE_TITTLE_ID_TPL.replace("{SUBSTRING}", substring);
     }
 
+    @Step("Closing article and return to main screen")
     public void closeArticle() {
         if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()) {
             this.waitForElementAndClick(BUTTON_BACK,
@@ -95,9 +102,10 @@ abstract public class ArticlePageObject extends MainPageObject {
         }
     }
 
+    @Step("Try to find article name in tittle")
     public void checkTittle(String article_tittle) {
         String provided_tittle = getTittle(article_tittle);
-        this.waitForElementPresent(provided_tittle, "ninashel", 5);
+        this.waitForElementPresent(provided_tittle, "Cant find article with provided tittle: " + provided_tittle, 5);
         this.assertElementPresent(provided_tittle,
                 "Not found element tittle, by PATH: " + provided_tittle);
     }

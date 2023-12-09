@@ -1,7 +1,6 @@
 package lib.ui.mobile_web;
 
 import lib.ui.MyListsPageObject;
-import lib.ui.SearchPageObject;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class MWMyListPageObject extends MyListsPageObject {

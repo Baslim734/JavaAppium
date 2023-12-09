@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -15,6 +16,7 @@ abstract public class NavigationUI extends MainPageObject {
         super(driver);
     }
 
+    @Step("Returning to the main page")
     public void backToMainPage() throws InterruptedException {
         if(Platform.getInstance().isMW()){
             Thread.sleep(4000);
@@ -27,6 +29,7 @@ abstract public class NavigationUI extends MainPageObject {
         this.waitForElementAndClick(NAVIGATION_BAR_EXPLORE_BUTTON_MAIN_PAGE,"cant find menu button");}
     }
 
+    @Step("Moving to saved list")
     public void goToSavedList() throws InterruptedException {
         if (Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()){
         this.waitForElementAndClick(NAVIGATION_BAR_SAVED_BUTTON,
