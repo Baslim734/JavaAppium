@@ -2,6 +2,8 @@ package tests;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.junit4.DisplayName;
 import lib.CoreTestCase;
 import lib.Platform;
@@ -21,6 +23,7 @@ public class GetStartedTest extends CoreTestCase {
     }
 
     @Test
+    @Severity(value = SeverityLevel.BLOCKER)
     @DisplayName("Pass through welcome test")
     @Description("Pass through all welcome screens to enter the main screen")
     public void testPassThroughWelcome() throws InterruptedException {

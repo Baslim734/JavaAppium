@@ -28,6 +28,7 @@ public class ArticleTests extends CoreTestCase {
     }
 
     @Test
+    @Severity(value = SeverityLevel.CRITICAL)
     @Features(value = {@Feature(value="Search"),@Feature(value = "Article")})
     @DisplayName("Saving two articles")
     @Description("Saving two articles, delete one and check expected to stay")
@@ -62,6 +63,7 @@ public class ArticleTests extends CoreTestCase {
     }
 
     @Test
+    @Severity(value = SeverityLevel.NORMAL)
     @DisplayName("Check tittle with expected one")
     @Description("In search results we check tittle with search query")
     public void testCheckTittle() throws InterruptedException {
